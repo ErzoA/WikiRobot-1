@@ -3,9 +3,8 @@ import random
 import glob
 from PIL import Image, ImageDraw, ImageFont
 from telethon.tl.types import InputMessagesFilterPhotos
-from WikiRobot.events import register
-from WikiRobot import telethn as tbot, ubot2
-from WikiRobot.modules.language import gs
+from EmikoRobot.events import register
+from EmikoRobot import telethn as tbot, ubot2
 
 
 def mediainfo(media):
@@ -69,7 +68,7 @@ async def logo_gen(event):
             pics.append(i)
         id_ = random.choice(pics)
         bg_ = await id_.download_media()
-        fpath_ = glob.glob("./WikiRobot/resources/fonts/*")
+        fpath_ = glob.glob("./EmikoRobot/resources/fonts/*")
         font_ = random.choice(fpath_)
     if not bg_:
         pics = []
@@ -80,7 +79,7 @@ async def logo_gen(event):
         id_ = random.choice(pics)
         bg_ = await id_.download_media()
     if not font_:
-        fpath_ = glob.glob("./WikiRobot/resources/fonts/*")
+        fpath_ = glob.glob("./EmikoRobot/resources/fonts/*")
         font_ = random.choice(fpath_)
     if len(name) <= 8:
         fnt_size = 120
@@ -114,7 +113,7 @@ async def logo_gen(event):
         await tbot.send_file(
             event.chat_id,
             file=flnme,
-            caption="Logo by [Wiki W](https://t.me/WikiTapiBot)",
+            caption="Logo by [Emiko Robot](https://t.me/EmiexRobot)",
             force_document=False,
         )
         os.remove(flnme)
@@ -122,7 +121,7 @@ async def logo_gen(event):
     if os.path.exists(bg_):
         os.remove(bg_) 
     if os.path.exists(font_):
-        if not font_.startswith("./SiestaRobot/resources/fonts"):
+        if not font_.startswith("./EmikoRobot/resources/fonts"):
             os.remove(font_)
 
 
@@ -152,7 +151,7 @@ async def logo_(event):
             pics.append(i)
         id_ = random.choice(pics)
         bg_ = await id_.download_media()
-        fpath_ = glob.glob("./WikiRobot/resources/fonts/*")
+        fpath_ = glob.glob("./EmikoRobot/resources/fonts/*")
         font_ = random.choice(fpath_)
     if not bg_:
         pics = []
@@ -163,7 +162,7 @@ async def logo_(event):
         id_ = random.choice(pics)
         bg_ = await id_.download_media()
     if not font_:
-        fpath_ = glob.glob("./WikiRobot/resources/fonts/*")
+        fpath_ = glob.glob("./EmikoRobot/resources/fonts/*")
         font_ = random.choice(fpath_)
     if len(name) <= 8:
         fnt_size = 105
@@ -197,7 +196,7 @@ async def logo_(event):
         await tbot.send_file(
             event.chat_id,
             file=flnme,
-            caption="Logo by [Wiki W](https://t.me/WikiTapiBot)",
+            caption="Logo by [Emiko Robot](https://t.me/EmiexRobot)",
             force_document=False,
         )
         os.remove(flnme)
@@ -205,13 +204,18 @@ async def logo_(event):
     if os.path.exists(bg_):
         os.remove(bg_) 
     if os.path.exists(font_):
-        if not font_.startswith("./WikiRobot/resources/fonts"):
+        if not font_.startswith("./EmikoRobot/resources/fonts"):
             os.remove(font_)
-
-
-def helps(chat):
-    return gs(chat, "logomarker_help")
 
 
 __mod_name__ = "Logomaker"
 
+__help__ = """ This is help menu for logomaker
+
+❂ /logo <text/name> - Create a logo with random view.
+❂ /wlogo <text/name> - Create a logo with wide view only.
+
+ Image Editor :
+
+❂  /edit <reply photo> - to edit image.
+"""
