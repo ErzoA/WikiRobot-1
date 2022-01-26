@@ -15,7 +15,6 @@ from telegram.utils.helpers import mention_html
 
 from WikiRobot import dispatcher
 from WikiRobot.modules.disable import DisableAbleCommandHandler
-from WikiRobot.modules.language import gs
 
 combot_stickers_url = "https://combot.org/telegram/stickers?q="
 
@@ -95,7 +94,7 @@ def kang(update, context):
         elif msg.reply_to_message.sticker and msg.reply_to_message.sticker.emoji:
             sticker_emoji = msg.reply_to_message.sticker.emoji
         else:
-            sticker_emoji = "🙂"
+            sticker_emoji = "😑"
 
         if not is_animated:
             try:
@@ -575,12 +574,21 @@ def delsticker(update, context):
             "Please reply to sticker message to del sticker"
         )
 
-
-def helps(chat):
-    return gs(chat, "stickers_help")
-
-
 __mod_name__ = "Stickers"
+
+__help__ = """
+*Help menu for stickers tools*
+
+❂ /stickerid*:* reply to a sticker to me to tell you its file ID.
+❂ /getsticker*:* reply to a sticker to me to upload its raw PNG file.
+❂ /kang*:* reply to a sticker to add it to your pack.
+❂ /delsticker*:* Reply to your anime exist sticker to your pack to delete it.
+❂ /stickers*:* Find stickers for given term on combot sticker catalogue
+❂ /tiny*:* To make small sticker
+❂ /kamuii <1-8> *:* To deepefying stiker
+❂ /mmf <reply with text>*:* To draw a text for sticker or pohots
+"""
+
 
 STICKERID_HANDLER = DisableAbleCommandHandler("stickerid", stickerid, run_async=True)
 GETSTICKER_HANDLER = DisableAbleCommandHandler("getsticker", getsticker, run_async=True)
