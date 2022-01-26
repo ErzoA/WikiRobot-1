@@ -27,7 +27,7 @@ from telegram import (
 from telegram.error import BadRequest
 from telegram.ext.dispatcher import run_async
 from telegram.ext import CallbackContext, Filters, CommandHandler
-from EmikoRobot import StartTime
+from WikiRobot import StartTime
 from WikiRobot.modules.helper_funcs.chat_status import sudo_plus
 from WikiRobot.modules.helper_funcs.alternate import send_action, typing_action
 
