@@ -11,7 +11,4 @@ __help__ = """
                   InlineKeyboardButton(text="CD Stream", url="https://t.me/WikiTapiChannel/140"),
                ],
                [
-                  InlineKeyboardButton(text="ɢᴏ ʙᴀᴄᴋ​", callback_data="Skyzu_"),
-                ],
-                ]
             ),
