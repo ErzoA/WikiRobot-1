@@ -3,18 +3,17 @@
 import emoji
 import re
 import aiohttp
-from googletrans import Translator
+from googletrans import Translator as google_translator
 from pyrogram import filters
 from aiohttp import ClientSession
 from WikiRobot import BOT_USERNAME as bu
 from WikiRobot import BOT_ID, pbot, arq
-from WikiRobot.w_plugins.chatbot import add_chat, get_session, remove_chat
+from WikiRobot.ex_plugins.chatbot import add_chat, get_session, remove_chat
 from WikiRobot.utils.pluginhelper import admins_only, edit_or_reply
-from WikiRobot.modules.language import gs
 
 url = "https://acobot-brainshop-ai-v1.p.rapidapi.com/get"
 
-translator = Translator()
+translator = google_translator()
 
 
 async def lunaQuery(query: str, user_id: int):
@@ -28,7 +27,7 @@ def extract_emojis(s):
 
 async def fetch(url):
     try:
-        async with aiohttp.Timeout(1.0):
+        async with aiohttp.Timeout(10.0):
             async with aiohttp.ClientSession() as session:
                 async with session.get(url) as resp:
                     try:
@@ -134,7 +133,7 @@ async def hmm(client, message):
         response = response.replace("9", "16")
         response = response.replace("I'm married to my job.", "I'm married with @WikiTapiOrang")
         response = response.replace("I'm single.", "My husband is @WikiTapiOrang")
-        response = response.replace("Wikibot.ai", "@WikiTapiGroup")
+        response = response.replace("Wikibot.ai", "@emikksupport")
         response = response.replace("I live in San Francisco, California.", "I live in @WikiTapiGroup.")
         response = response.replace("I made myself", "I was Created by @WikiTapiOrang")
         response = response.replace(
@@ -222,7 +221,7 @@ async def hmm(client, message):
         response = response.replace("I'm married to my job.", "I'm married with @WikiTapiOrang")
         response = response.replace("I'm single.", "My husband is @WikiTapiOrang")
         response = response.replace("Wikibot.ai", "@WikiTapiGroup")
-        response = response.replace("I live in San Francisco, California.", "I live in @WikiTapiGroup.")
+        response = response.replace("I live in San Francisco, California.", "I live in @ekikosupport.")
         response = response.replace("I made myself", "I was Created by @WikiTapiOrang")
         response = response.replace(
                 "Hi, my friend! Do you want me to tell you a joke?",
@@ -337,7 +336,7 @@ async def inuka(client, message):
         return
 
 
-@pbot.on_message(filters.regex("Wiki|wiki|robot|WIKI|wik|Wik|wikwik|Wikwik") & ~filters.bot & ~filters.via_bot  & ~filters.forwarded & ~filters.reply & ~filters.channel & ~filters.edited)
+@pbot.on_message(filters.regex("Wiki|wiki|robot|WIKI|Wik|wikwik|Wikwik|wik") & ~filters.bot & ~filters.via_bot  & ~filters.forwarded & ~filters.reply & ~filters.channel & ~filters.edited)
 async def inuka(client, message):
     msg = message.text
     if msg.startswith("/") or msg.startswith("@"):
@@ -418,7 +417,7 @@ async def inuka(client, message):
     response = response.replace("Have the control right.", "@WikiTapiOrang is my owner.")
     response = response.replace(
             "Hi, my friend, what can I do for you today?",
-            "Hi, My name is Wiki Nice to meet you")
+            "Hi, My name is Emik Nice to meet you")
 
     pro = response
     if not "en" in lan and not lan == "":
@@ -434,7 +433,11 @@ async def inuka(client, message):
         return
 
 
-def helps(chat):
-    return gs(chat, "chatbot_help")
+__help__ = """
+❂ Wiki AI is the only ai system which can detect & reply upto 200 language's
+
+❂ /chatbot [ON/OFF]: Enables and disables AI Chat mode.
+❂ /chatbot EN : Enables English only chatbot.
+"""
 
 __mod_name__ = "Chatbot"
