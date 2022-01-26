@@ -93,14 +93,12 @@ PM_START_TEXT = """
 """
 
 buttons = [
-    [
-        InlineKeyboardButton(text="About Wiki Robot", callback_data="Wiki_"),
+    [   
+       InlineKeyboardButton(text="My Darling", url="t.me/WikiTapiOrang"),
     ],
     [
         InlineKeyboardButton(text="Get Help", callback_data="help_back"),
-        InlineKeyboardButton(
-            text="Try inline!​​", switch_inline_query_current_chat=""
-        ),
+        InlineKeyboardButton(text="About Wiki", callback_data="Wiki_"),
     ],
     [
         InlineKeyboardButton(
