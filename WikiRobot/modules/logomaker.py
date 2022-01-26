@@ -3,7 +3,7 @@ import random
 import glob
 from PIL import Image, ImageDraw, ImageFont
 from telethon.tl.types import InputMessagesFilterPhotos
-from WikiRobot import register
+from WikiRobot.events import register
 from WikiRobot import telethn as tbot, ubot2
 
 
