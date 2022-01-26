@@ -3,14 +3,14 @@ from io import BytesIO
 import random
 from typing import Optional
 
-import WikiRobot.modules.sql.notes_sql as sql
-from WikiRobot import LOGGER, JOIN_LOGGER, SUPPORT_CHAT, dispatcher, DRAGONS
-from WikiRobot.modules.disable import DisableAbleCommandHandler
-from WikiRobot.modules.helper_funcs.handlers import MessageHandlerChecker
-from WikiRobot.modules.helper_funcs.chat_status import user_admin, connection_status
-from WikiRobot.modules.helper_funcs.misc import build_keyboard, revert_buttons
-from WikiRobot.modules.helper_funcs.msg_types import get_note_type
-from WikiRobot.modules.helper_funcs.string_handling import (
+import EmikoRobot.modules.sql.notes_sql as sql
+from EmikoRobot import LOGGER, JOIN_LOGGER, SUPPORT_CHAT, dispatcher, DRAGONS
+from EmikoRobot.modules.disable import DisableAbleCommandHandler
+from EmikoRobot.modules.helper_funcs.handlers import MessageHandlerChecker
+from EmikoRobot.modules.helper_funcs.chat_status import user_admin, connection_status
+from EmikoRobot.modules.helper_funcs.misc import build_keyboard, revert_buttons
+from EmikoRobot.modules.helper_funcs.msg_types import get_note_type
+from EmikoRobot.modules.helper_funcs.string_handling import (
     escape_invalid_curly_brackets,
 )
 from telegram import (
@@ -30,7 +30,6 @@ from telegram.ext import (
     Filters,
     MessageHandler,
 )
-from WikiRobot.modules.language import gs
 
 FILE_MATCHER = re.compile(r"^###file_id(!photo)?###:(.*?)(?:\s|$)")
 STICKER_MATCHER = re.compile(r"^###sticker(!photo)?###:")
@@ -191,7 +190,6 @@ def get(update, context, notename, show_none=True, no_format=False):
                         caption=text,
                         reply_to_message_id=reply_id,
                         parse_mode=parseMode,
-                        disable_web_page_preview=True,
                         reply_markup=keyboard,
                     )
 
@@ -548,9 +546,32 @@ def __chat_settings__(chat_id, user_id):
     return f"There are `{len(notes)}` notes in this chat."
 
 
-def helps(chat):
-    return gs(chat, "notes_help")
+__help__ = """
+❂ /get <notename>*:* get the note with this notename
+❂ #<notename>*:* same as /get
+❂ /notes or /saved*:* list all saved notes in this chat
+❂ /number *:* Will pull the note of that number in the list
+If you would like to retrieve the contents of a note without any formatting, use `/get <notename> noformat`. This can \
+be useful when updating a current note
 
+*Admins only:*
+❂ /save <notename> <notedata>*:* saves notedata as a note with name notename
+A button can be added to a note by using standard markdown link syntax - the link should just be prepended with a \
+`buttonurl:` section, as such: `[somelink](buttonurl:example.com)`. Check `/markdownhelp` for more info
+❂ /save <notename>*:* save the replied message as a note with name notename
+ Separate diff replies by `%%%` to get random notes
+ *Example:*
+ `/save notename
+ Reply 1
+ %%%
+ Reply 2
+ %%%
+ Reply 3`
+❂ /clear <notename>*:* clear note with this name
+❂ /removeallnotes*:* removes all notes from the group
+
+ *Note:* Note names are case-insensitive, and they are automatically converted to lowercase before getting saved.
+"""
 
 __mod_name__ = "Notes"
 
