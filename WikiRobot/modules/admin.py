@@ -23,7 +23,6 @@ from WikiRobot.modules.helper_funcs.extraction import (
 )
 from WikiRobot.modules.log_channel import loggable
 from WikiRobot.modules.helper_funcs.alternate import send_message
-from WikiRobot.modules.language import gs
 
 
 @bot_admin
@@ -213,7 +212,7 @@ def promote(update: Update, context: CallbackContext) -> str:
             can_edit_messages=bot_member.can_edit_messages,
             can_delete_messages=bot_member.can_delete_messages,
             can_invite_users=bot_member.can_invite_users,
-            # can_promote_members=bot_member.can_promote_members,
+            can_manage_voice_chats=bot_member.can_manage_voice_chats,
             can_restrict_members=bot_member.can_restrict_members,
             can_pin_messages=bot_member.can_pin_messages,
         )
@@ -233,6 +232,83 @@ def promote(update: Update, context: CallbackContext) -> str:
     log_message = (
         f"<b>{html.escape(chat.title)}:</b>\n"
         f"#PROMOTED\n"
+        f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+        f"<b>User:</b> {mention_html(user_member.user.id, user_member.user.first_name)}"
+    )
+
+    return log_message
+
+
+@connection_status
+@bot_admin
+@can_promote
+@user_admin
+@loggable
+def lowpromote(update: Update, context: CallbackContext) -> str:
+    bot = context.bot
+    args = context.args
+
+    message = update.effective_message
+    chat = update.effective_chat
+    user = update.effective_user
+
+    promoter = chat.get_member(user.id)
+
+    if (
+        not (promoter.can_promote_members or promoter.status == "creator")
+        and user.id not in DRAGONS
+    ):
+        message.reply_text("You don't have the necessary rights to do that!")
+        return
+
+    user_id = extract_user(message, args)
+
+    if not user_id:
+        message.reply_text(
+            "You don't seem to be referring to a user or the ID specified is incorrect..",
+        )
+        return
+
+    try:
+        user_member = chat.get_member(user_id)
+    except:
+        return
+
+    if user_member.status in ('administrator', 'creator'):
+        message.reply_text("How am I meant to promote someone that's already an admin?")
+        return
+
+    if user_id == bot.id:
+        message.reply_text("I can't promote myself! Get an admin to do it for me.")
+        return
+
+    # set same perms as bot - bot can't assign higher perms than itself!
+    bot_member = chat.get_member(bot.id)
+
+    try:
+        bot.promoteChatMember(
+            chat.id,
+            user_id,
+            can_delete_messages=bot_member.can_delete_messages,
+            can_invite_users=bot_member.can_invite_users,
+            can_pin_messages=bot_member.can_pin_messages,
+        )
+    except BadRequest as err:
+        if err.message == "User_not_mutual_contact":
+            message.reply_text("I can't promote someone who isn't in the group.")
+        else:
+            message.reply_text("An error occured while promoting.")
+        return
+
+    bot.sendMessage(
+        chat.id,
+        f"Lowpromoting a user in <b>{chat.title}<b>\n\nUser: {mention_html(user_member.user.id, user_member.user.first_name)}\nAdmin: {mention_html(user.id, user.first_name)}",
+        parse_mode=ParseMode.HTML,
+    )
+
+    log_message = (
+        f"<b>{html.escape(chat.title)}:</b>\n"
+        f"#LOWPROMOTED\n"
         f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
         f"<b>User:</b> {mention_html(user_member.user.id, user_member.user.first_name)}"
     )
@@ -843,8 +919,33 @@ def button(update: Update, context: CallbackContext) -> str:
         return ""
 
   
-def helps(chat):
-    return gs(chat, "admin_help")
+__help__ = """
+*User Commands*:
+❂ /admins*:* list of admins in the chat
+❂ /pinned*:* to get the current pinned message.
+
+*The Following Commands are Admins only:* 
+❂ /pin*:* silently pins the message replied to - add `'loud'` or `'notify'` to give notifs to users
+❂ /unpin*:* unpins the currently pinned message
+❂ /invitelink*:* gets invitelink
+❂ /promote*:* promotes the user replied to
+❂ /fullpromote*:* promotes the user replied to with full rights
+❂ /demote*:* demotes the user replied to
+❂ /title <title here>*:* sets a custom title for an admin that the bot promoted
+❂ /admincache*:* force refresh the admins list
+❂ /del*:* deletes the message you replied to
+❂ /purge*:* deletes all messages between this and the replied to message.
+❂ /purge <integer X>*:* deletes the replied message, and X messages following it if replied to a message.
+❂ /setgtitle <text>*:* set group title
+❂ /setgpic*:* reply to an image to set as group photo
+❂ /setdesc*:* Set group description
+❂ /setsticker*:* Set group sticker
+
+*Rules*:
+❂ /rules*:* get the rules for this chat.
+❂ /setrules <your rules here>*:* set the rules for this chat.
+❂ /clearrules*:* clear the rules for this chat.
+"""
 
 SET_DESC_HANDLER = CommandHandler("setdesc", set_desc, filters=Filters.chat_type.groups, run_async=True)
 SET_STICKER_HANDLER = CommandHandler("setsticker", set_sticker, filters=Filters.chat_type.groups, run_async=True)
@@ -862,6 +963,7 @@ INVITE_HANDLER = DisableAbleCommandHandler("invitelink", invite, run_async=True)
 
 PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote, run_async=True)
 FULLPROMOTE_HANDLER = DisableAbleCommandHandler("fullpromote", fullpromote, run_async=True)
+LOW_PROMOTE_HANDLER = DisableAbleCommandHandler("lowpromote", lowpromote, run_async=True)
 DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote, run_async=True)
 
 SET_TITLE_HANDLER = CommandHandler("title", set_title, run_async=True)
@@ -879,6 +981,7 @@ dispatcher.add_handler(PINNED_HANDLER)
 dispatcher.add_handler(INVITE_HANDLER)
 dispatcher.add_handler(PROMOTE_HANDLER)
 dispatcher.add_handler(FULLPROMOTE_HANDLER)
+dispatcher.add_handler(LOW_PROMOTE_HANDLER)
 dispatcher.add_handler(DEMOTE_HANDLER)
 dispatcher.add_handler(SET_TITLE_HANDLER)
 dispatcher.add_handler(ADMIN_REFRESH_HANDLER)
@@ -912,6 +1015,7 @@ __handlers__ = [
     INVITE_HANDLER,
     PROMOTE_HANDLER,
     FULLPROMOTE_HANDLER,
+    LOW_PROMOTE_HANDLER,
     DEMOTE_HANDLER,
     SET_TITLE_HANDLER,
     ADMIN_REFRESH_HANDLER,
