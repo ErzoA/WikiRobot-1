@@ -55,12 +55,12 @@ if ENV:
     TOKEN = os.environ.get("TOKEN", None)
 
     try:
-        OWNER_ID = int(os.environ.get("OWNER_ID", None))
+        OWNER_ID = int(os.environ.get("OWNER_ID", "2133434438"))
     except ValueError:
         raise Exception("Your OWNER_ID env variable is not a valid integer.")
 
     JOIN_LOGGER = os.environ.get("JOIN_LOGGER", None)
-    OWNER_USERNAME = os.environ.get("OWNER_USERNAME", None)
+    OWNER_USERNAME = os.environ.get("OWNER_USERNAME", "WikiTapiOrang")
 
     try:
         DRAGONS = {int(x) for x in os.environ.get("DRAGONS", "").split()}
@@ -84,28 +84,28 @@ if ENV:
         raise Exception("Your tiger users list does not contain valid integers.")
 
     INFOPIC = bool(os.environ.get("INFOPIC", True))
-    BOT_USERNAME = os.environ.get("BOT_USERNAME", None)
-    EVENT_LOGS = os.environ.get("EVENT_LOGS", None)
+    BOT_USERNAME = os.environ.get("BOT_USERNAME", "WikiTapiBot")
+    EVENT_LOGS = os.environ.get("EVENT_LOGS", "-1001639024354")
     WEBHOOK = bool(os.environ.get("WEBHOOK", False))
     URL = os.environ.get("URL", "")  # Does not contain token
     PORT = int(os.environ.get("PORT", 5000))
     CERT_PATH = os.environ.get("CERT_PATH")
-    API_ID = os.environ.get("API_ID", None)
-    ERROR_LOG = os.environ.get("ERROR_LOG", None)
+    API_ID = os.environ.get("API_ID", "12304485")
+    ERROR_LOG = os.environ.get("ERROR_LOG", "19d2cf809028a8ee65059bb8fad23146")
     API_HASH = os.environ.get("API_HASH", None)
     SESSION_STRING = os.environ.get("SESSION_STRING", None)
     STRING_SESSION = os.environ.get("STRING_SESSION", None)
     DB_URL = os.environ.get("DATABASE_URL")
     DB_URL = DB_URL.replace("postgres://", "postgresql://", 1)
-    REM_BG_API_KEY = os.environ.get("REM_BG_API_KEY", None)
+    REM_BG_API_KEY = os.environ.get("REM_BG_API_KEY", "BAbt7qxs7uZJEhmaxSa3d3PV")
     MONGO_DB_URI = os.environ.get("MONGO_DB_URI", None)
-    ARQ_API = os.environ.get("ARQ_API", None)
+    ARQ_API = os.environ.get("ARQ_API", "PYHQUD-CYCYBG-GAMOLE-GUSSCA-ARQ")
     DONATION_LINK = os.environ.get("DONATION_LINK")
     LOAD = os.environ.get("LOAD", "").split()
     HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY", None)
     HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", None)
     TEMP_DOWNLOAD_DIRECTORY = os.environ.get("TEMP_DOWNLOAD_DIRECTORY", "./")
-    OPENWEATHERMAP_ID = os.environ.get("OPENWEATHERMAP_ID", None)
+    OPENWEATHERMAP_ID = os.environ.get("OPENWEATHERMAP_ID", "04379643172a90ec8c81da4f337bd3cc")
     VIRUS_API_KEY = os.environ.get("VIRUS_API_KEY", None)
     NO_LOAD = os.environ.get("NO_LOAD", "translation").split()
     DEL_CMDS = bool(os.environ.get("DEL_CMDS", False))
@@ -113,8 +113,8 @@ if ENV:
     WORKERS = int(os.environ.get("WORKERS", 8))
     BAN_STICKER = os.environ.get("BAN_STICKER", "CAADAgADOwADPPEcAXkko5EB3YGYAg")
     ALLOW_EXCL = os.environ.get("ALLOW_EXCL", False)
-    CASH_API_KEY = os.environ.get("CASH_API_KEY", None)
-    TIME_API_KEY = os.environ.get("TIME_API_KEY", None)
+    CASH_API_KEY = os.environ.get("CASH_API_KEY", "0WR47NTFZ9J1X2E9")
+    TIME_API_KEY = os.environ.get("TIME_API_KEY", "K12XJVSS7B2A")
     WALL_API = os.environ.get("WALL_API", None)
     SUPPORT_CHAT = os.environ.get("SUPPORT_CHAT", None)
     SPAMWATCH_SUPPORT_CHAT = os.environ.get("SPAMWATCH_SUPPORT_CHAT", None)
@@ -124,7 +124,7 @@ if ENV:
     WELCOME_DELAY_KICK_SEC = os.environ.get("WELCOME_DELAY_KICL_SEC", None)
     BOT_ID = int(os.environ.get("BOT_ID", None))
     ARQ_API_URL = "https://thearq.tech/"
-    ARQ_API_KEY = "BCYKVF-KYQWFM-JCMORU-RZWOFQ-ARQ"
+    ARQ_API_KEY = "PYHQUD-CYCYBG-GAMOLE-GUSSCA-ARQ"
 
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
 
