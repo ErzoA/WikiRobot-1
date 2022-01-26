@@ -83,7 +83,7 @@ def get_readable_time(seconds: int) -> str:
 PM_START_TEXT = """
 *Hello {} !*
 ✪ Saya Adalah Bot Music+Manager.
-✪ Bit Music, Bisa Memutar Music dan Streaming Di Obrolan Suara Group.
+✪ Bot Music, Bisa Memutar Music dan Streaming Di Obrolan Suara Group.
 ✪ Bot Manager, Memperindah Tampilan Group atau Hanya Berbuat Beramin-main [😑](https://telegra.ph/file/9b9a27cd02e65046d5515.jpg)
 ────────────────────────
 × *Uptime:* `{}`
