@@ -43,7 +43,6 @@ from WikiRobot.modules.helper_funcs.chat_status import (
 from WikiRobot.modules.helper_funcs.extraction import extract_user_and_text
 from WikiRobot.modules.helper_funcs.string_handling import extract_time
 from WikiRobot.modules.log_channel import gloggable, loggable
-from WikiRobot.modules.language import gs
 
 
 
@@ -125,7 +124,7 @@ def ban(update: Update, context: CallbackContext) -> str:
         f"<b>User:</b> {mention_html(member.user.id, html.escape(member.user.first_name))}"
     )
     if reason:
-        log += "\n<b>Reason:</b> {}".format(reason)
+        log += "<b>Reason:</b> {}".format(reason)
 
     try:
         chat.ban_member(user_id)
@@ -572,8 +571,25 @@ def snipe(update: Update, context: CallbackContext):
             )
 
 
-def helps(chat):
-    return gs(chat, "bansmutes_help")
+__help__ = """
+*User Commands:*
+
+❂ /kickme*:* kicks the user who issued the command
+
+*Admins only:*
+
+❂ /ban <userhandle>*:* bans a user. (via handle, or reply)
+❂ /sban <userhandle>*:* Silently ban a user. Deletes command, Replied message and doesn't reply. (via handle, or reply)
+❂ /tban <userhandle> x(m/h/d)*:* bans a user for x time. (via handle, or reply). m = minutes, h = hours, d = days.
+❂ /unban <userhandle>*:* unbans a user. (via handle, or reply)
+❂ /kick <userhandle>*:* kicks a user out of the group, (via handle, or reply)
+❂ /mute <userhandle>*:* silences a user. Can also be used as a reply, muting the replied to user.
+❂ /tmute <userhandle> x(m/h/d)*:* mutes a user for x time. (via handle, or reply). m = minutes, h = hours, d = days.
+❂ /unmute <userhandle>*:* unmutes a user. Can also be used as a reply, muting the replied to user.
+❂ /zombies*:* searches deleted accounts
+❂ /zombies clean*:* removes deleted accounts from the group.
+❂ /snipe <chatid> <string>*:* Make me send a message to a specific chat.
+"""
 
 
 __mod_name__ = "Bans/Mutes"
