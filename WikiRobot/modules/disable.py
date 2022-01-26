@@ -14,7 +14,6 @@ from telegram.ext import (
     RegexHandler,
 )
 from telegram.utils.helpers import escape_markdown
-from WikiRobot.modules.language import gs
 
 CMD_STARTERS = tuple(CMD_STARTERS)
 
@@ -318,9 +317,17 @@ if is_module_loaded(FILENAME):
         return build_curr_disabled(chat_id)
 
 
-    def helps(chat):
-        return gs(chat, "disabling_help")
+    __help__ = """
+❂ /cmds*:* check the current status of disabled commands
 
+*Admins only:*
+
+❂ /enable <cmd name>*:* enable that command
+❂ /disable <cmd name>*:* disable that command
+❂ /enablemodule <module name>*:* enable all commands in that module
+❂ /disablemodule <module name>*:* disable all commands in that module
+❂ /listcmds*:* list all possible toggleable commands
+"""
 
     DISABLE_HANDLER = CommandHandler("disable", disable, run_async=True)
     DISABLE_MODULE_HANDLER = CommandHandler(
