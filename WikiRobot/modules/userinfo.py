@@ -18,7 +18,7 @@ from telegram.ext.dispatcher import run_async
 from telegram.error import BadRequest
 from telegram.utils.helpers import escape_markdown, mention_html
     
-from WikiRobot import (
+from EmikoRobot import (
     DEV_USERS,
     OWNER_ID,
     DRAGONS,
@@ -31,16 +31,16 @@ from WikiRobot import (
     StartTime,
     SUPPORT_CHAT,
 )
-from WikiRobot.__main__ import STATS, TOKEN, USER_INFO
-from WikiRobot.modules.sql import SESSION
-import WikiRobot.modules.sql.userinfo_sql as sql
-from WikiRobot.modules.disable import DisableAbleCommandHandler
-from WikiRobot.modules.sql.global_bans_sql import is_user_gbanned
-from WikiRobot.modules.sql.afk_sql import is_afk, set_afk
-from WikiRobot.modules.sql.users_sql import get_user_num_chats
-from WikiRobot.modules.helper_funcs.chat_status import sudo_plus
-from WikiRobot.modules.helper_funcs.extraction import extract_user
-from WikiRobot import telethn
+from EmikoRobot.__main__ import STATS, TOKEN, USER_INFO
+from EmikoRobot.modules.sql import SESSION
+import EmikoRobot.modules.sql.userinfo_sql as sql
+from EmikoRobot.modules.disable import DisableAbleCommandHandler
+from EmikoRobot.modules.sql.global_bans_sql import is_user_gbanned
+from EmikoRobot.modules.sql.afk_sql import is_afk, set_afk
+from EmikoRobot.modules.sql.users_sql import get_user_num_chats
+from EmikoRobot.modules.helper_funcs.chat_status import sudo_plus
+from EmikoRobot.modules.helper_funcs.extraction import extract_user
+from EmikoRobot import telethn
 
 def no_by_per(totalhp, percentage):
     """
@@ -282,7 +282,7 @@ def info(update: Update, context: CallbackContext):
                     text += _stext.format("Detected")
                 elif status in {"administrator", "creator"}:
                     text += _stext.format("Admin")
-    if user_id not in [bot.id, 777000, 2133434438]:
+    if user_id not in [bot.id, 777000, 1087968824]:
         userhp = hpmanager(user)
         text += f"\n\n<b>Health:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n[<i>{make_bar(int(userhp['percentage']))} </i>{userhp['percentage']}%]"
 
@@ -316,7 +316,7 @@ def info(update: Update, context: CallbackContext):
         text += "\n\nThe Disaster level of this person is 'Soldier'."
         disaster_level_present = True
     elif user.id == 1829047705:
-         text += "\n\nPemilik Bot. Babu dari @WikiTapiOrang. Nama Bot Terinspirasi Dari 'Saya'."
+         text += "\n\nOwner Of A Bot. Queen Of @excrybaby. Bot Name Inspired From 'JoJo'."
          disaster_level_present = True
 
     try:
@@ -415,21 +415,21 @@ def about_me(update: Update, context: CallbackContext):
 def set_about_me(update: Update, context: CallbackContext):
     message = update.effective_message
     user_id = message.from_user.id
-    if user_id in [777000, 2133434438]:
+    if user_id in [777000, 1087968824]:
         message.reply_text("Error! Unauthorized")
         return
     bot = context.bot
     if message.reply_to_message:
         repl_message = message.reply_to_message
         repl_user_id = repl_message.from_user.id
-        if repl_user_id in [bot.id, 777000, 2133434438] and (user_id in DEV_USERS):
+        if repl_user_id in [bot.id, 777000, 1087968824] and (user_id in DEV_USERS):
             user_id = repl_user_id
     text = message.text
     info = text.split(None, 1)
     if len(info) == 2:
         if len(info[1]) < MAX_MESSAGE_LENGTH // 4:
             sql.set_user_me_info(user_id, info[1])
-            if user_id in [777000, 2133434438]:
+            if user_id in [777000, 1087968824]:
                 message.reply_text("Authorized...Information updated!")
             elif user_id == bot.id:
                 message.reply_text("I have updated my info with the one you provided!")
@@ -445,9 +445,9 @@ def set_about_me(update: Update, context: CallbackContext):
 
 @sudo_plus
 def stats(update: Update, context: CallbackContext):
-    stats = "<b>╔═━「 Current Wiki Statistics 」</b>\n" + "\n".join([mod.__stats__() for mod in STATS])
+    stats = "<b>╔═━「 Current Emiko Statistics 」</b>\n" + "\n".join([mod.__stats__() for mod in STATS])
     result = re.sub(r"(\d+)", r"<code>\1</code>", stats)
-    result += "\n<b>╘═━「 Powered By @WikiTapiOrang 」</b>"
+    result += "\n<b>╘═━「 Powered By kennedy-ex 」</b>"
     update.effective_message.reply_text(
         result,
         parse_mode=ParseMode.HTML, 
@@ -495,7 +495,7 @@ def set_about_bio(update: Update, context: CallbackContext):
             )
             return
 
-        if user_id in [777000, 2133434438] and sender_id not in DEV_USERS:
+        if user_id in [777000, 1087968824] and sender_id not in DEV_USERS:
             message.reply_text("You are not authorised")
             return
 
