@@ -1,5 +1,5 @@
 import html
-from typing import Optional, List
+from typing import Optional
 import re
 
 from telegram import Message, Chat, Update, User, ChatPermissions
@@ -26,7 +26,6 @@ from WikiRobot.modules.helper_funcs.string_handling import extract_time
 from WikiRobot.modules.connection import connected
 from WikiRobot.modules.helper_funcs.alternate import send_message
 from WikiRobot.modules.sql.approve_sql import is_approved
-from WikiRobot.modules.language import gs
 
 FLOOD_GROUP = 3
 
@@ -54,11 +53,11 @@ def check_flood(update, context) -> str:
     try:
         getmode, getvalue = sql.get_flood_setting(chat.id)
         if getmode == 1:
-            chat.kick_member(user.id)
+            chat.ban_member(user.id)
             execstrings = "Banned"
             tag = "BANNED"
         elif getmode == 2:
-            chat.kick_member(user.id)
+            chat.ban_member(user.id)
             chat.unban_member(user.id)
             execstrings = "Kicked"
             tag = "KICKED"
@@ -72,7 +71,7 @@ def check_flood(update, context) -> str:
             tag = "MUTED"
         elif getmode == 4:
             bantime = extract_time(msg, getvalue)
-            chat.kick_member(user.id, until_date=bantime)
+            chat.ban_member(user.id, until_date=bantime)
             execstrings = "Banned for {}".format(getvalue)
             tag = "TBAN"
         elif getmode == 5:
@@ -397,9 +396,6 @@ def __chat_settings__(chat_id, user_id):
     if limit == 0:
         return "Not enforcing to flood control."
     return "Antiflood has been set to`{}`.".format(limit)
-
-def helps(chat):
-    return gs(chat, "antiflood_help")
 
 __mod_name__ = "Anti-Flood"
 
