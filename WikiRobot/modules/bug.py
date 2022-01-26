@@ -10,13 +10,13 @@ from pyrogram.types import (
     Message,
 )
 
-from SiestaRobot import pbot as Client
-from SiestaRobot import (
+from WikiRobot import pbot as Client
+from WikiRobot import (
     OWNER_ID as owner_id,
     OWNER_USERNAME as owner_usn,
     SUPPORT_CHAT as log,
 )
-from SiestaRobot.utils.errors import capture_err
+from WikiRobot.utils.errors import capture_err
 
 
 def content(msg: Message) -> [None, str]:
@@ -47,7 +47,7 @@ async def bug(_, msg: Message):
     datetimes_fmt = "%d-%m-%Y"
     datetimes = datetime.utcnow().strftime(datetimes_fmt)
 
-    thumb = "https://telegra.ph/file/bd218d4af1c69c586ebb0.jpg"
+    thumb = "https://telegra.ph/file/b4c7a40cd47718aabac58.jpg"
     
     bug_report = f"""
 **#BUG : ** **@{owner_usn}**
@@ -62,13 +62,13 @@ async def bug(_, msg: Message):
 
     
     if msg.chat.type == "private":
-        await msg.reply_text("❎ <b>This command only works in groups.</b>")
+        await msg.reply_text("❎ <b>Perintah ini hanya berfungsi dalam grup.</b>")
         return
 
     if user_id == owner_id:
         if bugs:
             await msg.reply_text(
-                "❎ <b>How can be owner bot reporting bug??</b>",
+                "❎ <b>Bagaimana bisa Owner melaporkan bug, stres emang nih Owner</b>",
             )
             return
         else:
@@ -79,7 +79,7 @@ async def bug(_, msg: Message):
         if bugs:
             await msg.reply_text(
                 f"<b>Bug Report : {bugs}</b>\n\n"
-                "✅ <b>The bug was successfully reported to the support group!</b>",
+                "✅ <b>Bug berhasil dilaporkan ke grup pendukung!</b>",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
